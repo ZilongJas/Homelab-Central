@@ -20,20 +20,30 @@ usage() {
     exit 1
 }
 
-# Handle command-line arguments
-if [[ "$1" == "--api" ]]; then
-    if [[ -z "$2" ]]; then
-        echo "Error: No API key provided."
+# Handle command-line arguments using case
+case "$1" in
+    --api)
+        if [[ -z "$2" ]]; then
+            echo "Error: No API key provided."
+            usage
+        else
+            echo -n "$2" > "$API_KEY_FILE"
+            chmod 600 "$API_KEY_FILE"
+            echo "API key updated successfully."
+            exit 0
+        fi
+        ;;
+    --help)
         usage
-    else
-        echo -n "$2" > "$API_KEY_FILE"
-        chmod 600 "$API_KEY_FILE"
-        echo "API key updated successfully."
-        exit 0
-    fi
-elif [[ "$1" == "--help" ]]; then
-    usage
-fi
+        ;;
+    "")
+        echo "Error: No location provided."
+        usage
+        ;;
+    *)
+        LOCATION="$*"
+        ;;
+esac
 
 # Check if API key exists; if not, prompt the user to set it
 if [[ ! -f "$API_KEY_FILE" ]]; then
@@ -52,14 +62,6 @@ if [[ ! -f "$API_KEY_FILE" ]]; then
     echo "API key saved successfully."
 else
     WEATHER_API_KEY=$(cat "$API_KEY_FILE")
-fi
-
-# Check if location is provided
-if [[ -z "$1" ]]; then
-    echo "Error: No location provided."
-    usage
-else
-    LOCATION="$*"
 fi
 
 # Encode the location for URL
