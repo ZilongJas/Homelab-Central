@@ -2,7 +2,8 @@
 
 A modular command-line tool for managing your home lab. Fetch weather data, monitor web server status, and more.
 
-![image](https://github.com/user-attachments/assets/547a27d6-385d-40f7-8598-ffef7777bec8)
+![image](https://github.com/user-attachments/assets/f5ae084a-b9b8-4d01-9c2a-1f7ff97991fb)
+
 ---
 
 ## Setup Instructions
