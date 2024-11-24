@@ -27,9 +27,9 @@ check_module() {
 usage() {
     echo -e "${text_bold}Usage:${text_reset} homelab [command] [options]"
     echo -e "${text_blue}Commands:${text_reset}"
-    echo -e "  -weather [location]    Fetch weather information for the specified location"
-    echo -e "  -webserver info             Display webserver status and storage information"
-    echo -e "  -help                 Show this help message"
+    echo -e "  -weather [location]        Fetch weather information for the specified location"
+    echo -e "  -webserver info            Display webserver status and storage information"
+    echo -e "  -help                      Show this help message"
     echo
     exit 0
 }
