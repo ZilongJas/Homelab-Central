@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# homelab: A central command-line tool for home lab management
+
+# Define colors for output
+text_red="$(tput setaf 1)"
+text_green="$(tput setaf 2)"
+text_yellow="$(tput setaf 3)"
+text_blue="$(tput setaf 4)"
+text_bold="$(tput bold)"
+text_reset="$(tput sgr0)"
+line=$(printf '=%.0s' $(seq 1 "$(tput cols)"))
+
+# Directory for module scripts
+MODULES_DIR="$(dirname "$0")/modules"
+
+# Check if the required module exists
+check_module() {
+    local module="$1"
+    if [[ ! -f "${MODULES_DIR}/${module}" ]]; then
+        echo -e "${text_red}Error:${text_reset} Module '${module}' not found in ${MODULES_DIR}."
+        exit 1
+    fi
+}
+
+# Display usage information
+usage() {
+    echo -e "${text_bold}Usage:${text_reset} homelab [command] [options]"
+    echo -e "${text_blue}Commands:${text_reset}"
+    echo -e "  -weather [location]    Fetch weather information for the specified location"
+    echo -e "  -webserver info             Display webserver status and storage information"
+    echo -e "  -help                 Show this help message"
+    echo
+    exit 0
+}
+
+# Route commands to the appropriate module
+case "$1" in
+    -help)
+        usage
+        ;;
+    -weather)
+        shift
+        check_module "weather"
+        "${MODULES_DIR}/weather" "$@"
+        ;;
+    -webserver)
+        shift
+        check_module "webserver"
+        "${MODULES_DIR}/webserver" "$@"
+        ;;
+    *)
+        echo -e "${text_red}Error:${text_reset} Unknown command '$1'."
+        usage
+        ;;
+esac
