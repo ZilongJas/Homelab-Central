@@ -42,11 +42,11 @@ display_webserver_status() {
 # Main execution based on arguments
 if [[ $# -lt 1 ]]; then
     echo -e "
-Options:
-  storage    # Display storage information.
-  status     # Display the status of webserver services (apache2, httpd, nginx).
-  all        # Display both webserver status and storage information.
-  --help     # Display this help message."
+Usage:
+  homelab -webserver storage    # Display storage information.
+  homelab -webserver status     # Display the status of webserver services (apache2, httpd, nginx).
+  homelab -webserver all        # Display both webserver status and storage information.
+  --help                        # Display this help message."
     exit 1
 fi
 
@@ -65,11 +65,11 @@ case "$option" in
         ;;
     --help)
         echo -e "
-Options:
-  storage    # Display storage information.
-  status     # Display the status of webserver services (apache2, httpd, nginx).
-  all        # Display both webserver status and storage information.
-  --help     # Display this help message."
+Usage:
+  homelab -webserver storage    # Display storage information.
+  homelab -webserver status     # Display the status of webserver services (apache2, httpd, nginx).
+  homelab -webserver all        # Display both webserver status and storage information.
+  --help                        # Display this help message."
         ;;
     *)
         echo -e "${text_red}Invalid option.${text_reset} Use --help to see the available options."
