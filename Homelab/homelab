@@ -29,7 +29,7 @@ usage() {
     echo -e "${text_blue}Commands:${text_reset}"
     echo -e "  -weather [location]       # Fetch weather information for the specified location"
     echo -e "      -weather --help       # For more help"
-    echo -e "  -webserver info           # Display webserver status and storage information"
+    echo -e "  -webserver --help         # Display webserver status and storage information"
     echo -e "  -help                     # Show this help message"
     echo
     exit 0
