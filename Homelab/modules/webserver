@@ -39,6 +39,39 @@ display_webserver_status() {
     echo -e "${line}\n"
 }
 
-# Main execution
-display_storage_info
-display_webserver_status
+# Main execution based on arguments
+if [[ $# -lt 1 ]]; then
+    echo -e "
+Options:
+  storage     Display storage information.
+  webserver   Display the status of webserver services (apache2, httpd, nginx).
+  all         Display both webserver status and storage information.
+  --help      Display this help message."
+    exit 1
+fi
+
+option="$1"
+
+case "$option" in
+    status)
+        display_webserver_status
+        ;;
+    storage)
+        display_storage_info
+        ;;
+    all)
+        display_storage_info
+        display_webserver_status
+        ;;
+    --help)
+        echo -e "
+Options:
+  storage     Display storage information.
+  webserver   Display the status of webserver services (apache2, httpd, nginx).
+  all         Display both webserver status and storage information.
+  --help      Display this help message."
+        ;;
+    *)
+        echo -e "${text_red}Invalid option.${text_reset} Use --help to see the available options."
+        ;;
+esac
