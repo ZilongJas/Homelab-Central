@@ -42,19 +42,6 @@ The output should return the path to the `homelab` script:
 ```
 /home/your-username/Homelab-Central/Homelab/homelab
 ```
-
-### 6. Run `Homelab`
-Use the `homelab` command to perform various tasks:
-
-- **Fetch Weather Data:**
-  ```bash
-  homelab -weather [location]
-  ```
-- **Check Web Server and Storage Status:**
-  ```bash
-  homelab -web info
-  ```
-  
 ---
 
 ## Uninstallation
