@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+# Colors for formatting using tput
+GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
+CYAN=$(tput setaf 6)
+YELLOW=$(tput setaf 3)
+RESET=$(tput sgr0)
+line=$(printf '~%.0s' $(seq 1 "$(tput cols)"))
+
+# File to store the API key
+API_KEY_FILE="$HOME/.weather_api_key"
+
+# Function to display usage
+usage() {
+    echo -e "\nUsage:"
+    echo "  homelab -weather [location]"
+    echo "  homelab -weather --api YOUR_API_KEY  # Set or update your Weather API key"
+    echo "  homelab -weather --help              # Display this help message"
+    exit 1
+}
+
+# Handle command-line arguments
+if [[ "$1" == "--api" ]]; then
+    if [[ -z "$2" ]]; then
+        echo "Error: No API key provided."
+        usage
+    else
+        echo -n "$2" > "$API_KEY_FILE"
+        chmod 600 "$API_KEY_FILE"
+        echo "API key updated successfully."
+        exit 0
+    fi
+elif [[ "$1" == "--help" ]]; then
+    usage
+fi
+
+# Check if API key exists; if not, prompt the user to set it
+if [[ ! -f "$API_KEY_FILE" ]]; then
+    echo "You need to set your Weather API key first."
+    echo "Please create an account at https://www.weatherapi.com/ to obtain an API key. (free 1m calls a month)"
+    echo
+    echo -n "Enter your Weather API key: "
+    read -sr WEATHER_API_KEY
+    echo
+    if [[ -z "$WEATHER_API_KEY" ]]; then
+        echo "Error: API key cannot be empty."
+        exit 1
+    fi
+    echo -n "$WEATHER_API_KEY" > "$API_KEY_FILE"
+    chmod 600 "$API_KEY_FILE"
+    echo "API key saved successfully."
+else
+    WEATHER_API_KEY=$(cat "$API_KEY_FILE")
+fi
+
+# Check if location is provided
+if [[ -z "$1" ]]; then
+    echo "Error: No location provided."
+    usage
+else
+    LOCATION="$*"
+fi
+
+# Encode the location for URL
+ENCODED_LOCATION=$(echo "$LOCATION" | sed 's/ /%20/g')
+
+# Fetch weather data
+response=$(curl -s "https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${ENCODED_LOCATION}")
+
+# Check for errors in the API response
+if echo "$response" | grep -q "error"; then
+    error_message=$(echo "$response" | jq -r '.error.message')
+    echo "Error fetching weather data: $error_message"
+    exit 1
+fi
+
+# Parse and display weather data
+temperature=$(echo "$response" | jq -r '.current.temp_f')
+humidity=$(echo "$response" | jq -r '.current.humidity')
+condition=$(echo "$response" | jq -r '.current.condition.text')
+location_name=$(echo "$response" | jq -r '.location.name')
+region=$(echo "$response" | jq -r '.location.region')
+country=$(echo "$response" | jq -r '.location.country')
+
+# Pretty weather output
+echo -e "${CYAN}${line}${RESET}"
+echo -e "${YELLOW}🌤️  WEATHER FOR ${GREEN}${location_name}, ${region}, ${country}${RESET}"
+echo -e "${CYAN}${line}${RESET}"
+echo -e "${BLUE}Condition:   ${RESET}${condition}"
+echo -e "${BLUE}Temperature: ${RESET}${temperature}°F"
+echo -e "${BLUE}Humidity:    ${RESET}${humidity}%"
+echo -e "${CYAN}${line}${RESET}"

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Colors for output
+text_blue="$(tput setaf 4)"
+text_red="$(tput setaf 1)"
+text_green="$(tput setaf 2)"
+text_bold="$(tput bold)"
+text_reset="$(tput sgr0)"
+line=$(printf '=%.0s' $(seq 1 "$(tput cols)"))
+
+# Display storage information
+display_storage_info() {
+    echo -e "${line}\n"
+    echo -e "${text_blue}${text_bold}Storage Information:${text_reset}\n"
+    df -h
+    echo -e "${line}\n"
+}
+
+# Display webserver status
+display_webserver_status() {
+    echo -e "${text_blue}${text_bold}Webserver Status:${text_reset}"
+    local webservers=("apache2" "httpd" "nginx")
+    local found=0
+    for service in "${webservers[@]}"; do
+        if systemctl list-units --type=service | grep -q "$service.service"; then
+            local status
+            status=$(systemctl is-active "$service.service")
+            if [[ "$status" == "active" ]]; then
+                echo -e "${text_bold}$service.service${text_reset} is ${text_green}$status${text_reset}"
+            else
+                echo -e "${text_bold}$service.service${text_reset} is ${text_red}$status${text_reset}"
+            fi
+            found=1
+        fi
+    done
+    if [[ "$found" -eq 0 ]]; then
+        echo -e "${text_red}No webserver services are running.${text_reset}"
+    fi
+    echo -e "${line}\n"
+}
+
+# Main execution
+display_storage_info
+display_webserver_status
