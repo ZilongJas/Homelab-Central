@@ -13,7 +13,6 @@ usage() {
     echo -e "\nUsage:"
     echo "  homelab -webserver -s             # Display storage information"
     echo "  homelab -webserver -t             # Display webserver status"
-    echo "  homelab -webserver -st            # Display both storage info and webserver status"
     echo "  homelab -webserver -h             # Display this help message"
     exit 1
 }
