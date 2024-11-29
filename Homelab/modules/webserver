@@ -8,6 +8,17 @@ text_bold="$(tput bold)"
 text_reset="$(tput sgr0)"
 line=$(printf '=%.0s' $(seq 1 "$(tput cols)"))
 
+# Function to display usage information
+usage() {
+    echo -e "
+Usage:
+  homelab -w -s       # Display storage information.
+  homelab -w -t       # Display the status of webserver services (apache2, httpd, nginx).
+  homelab -w -st      # Display both webserver status and storage information.
+  homelab -w -h       # Display this help message."
+    exit 1
+}
+
 # Display storage information
 display_storage_info() {
     echo -e "${line}\n"
@@ -39,39 +50,33 @@ display_webserver_status() {
     echo -e "${line}\n"
 }
 
-# Main execution based on arguments
-if [[ $# -lt 1 ]]; then
-    echo -e "
-Usage:
-  homelab -webserver storage    # Display storage information.
-  homelab -webserver status     # Display the status of webserver services (apache2, httpd, nginx).
-  homelab -webserver all        # Display both webserver status and storage information.
-  --help                        # Display this help message."
-    exit 1
+# Initialize variables for options
+SHOW_STORAGE=false
+SHOW_STATUS=false
+
+# Parse options using getopts
+while getopts ":st" opt; do
+    case ${opt} in
+        s) SHOW_STORAGE=true ;;
+        t) SHOW_STATUS=true ;;
+        h) usage ;;
+        \?) 
+            echo -e "${text_red}Invalid option: -${OPTARG}${text_reset}"
+            usage 
+            ;;
+    esac
+done
+
+# Execute based on options
+if [[ "$SHOW_STORAGE" == true ]]; then
+    display_storage_info
 fi
 
-option="$1"
+if [[ "$SHOW_STATUS" == true ]]; then
+    display_webserver_status
+fi
 
-case "$option" in
-    status)
-        display_webserver_status
-        ;;
-    storage)
-        display_storage_info
-        ;;
-    all)
-        display_storage_info
-        display_webserver_status
-        ;;
-    --help)
-        echo -e "
-Usage:
-  homelab -webserver storage    # Display storage information.
-  homelab -webserver status     # Display the status of webserver services (apache2, httpd, nginx).
-  homelab -webserver all        # Display both webserver status and storage information.
-  --help                        # Display this help message."
-        ;;
-    *)
-        echo -e "${text_red}Invalid option.${text_reset} Use --help to see the available options."
-        ;;
-esac
+# If no options were passed, show usage
+if [[ "$SHOW_STORAGE" == false && "$SHOW_STATUS" == false ]]; then
+    usage
+fi
