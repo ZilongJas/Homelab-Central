@@ -26,10 +26,20 @@ check_module() {
 # Display usage information
 usage() {
     echo -e "${text_bold}Usage:${text_reset} homelab [command] [options]"
-    echo -e "${text_blue}Commands:${text_reset}"
-    echo -e "  -weather --help                  # For more weather help"
-    echo -e "  -webserver --help                # For more webserver help"
+    echo
+    echo -e "${text_blue}Global Commands:${text_reset}"
     echo -e "  -help                            # Show this help message"
+    echo
+    echo -e "${text_blue}Weather Commands:${text_reset}"
+    echo -e "  homelab -weather -a <API_KEY>    # Set or update your Weather API key"
+    echo -e "  homelab -weather -w <location>   # Fetch weather information for a location"
+    echo -e "  homelab -weather -h              # Display help for the weather module"
+    echo
+    echo -e "${text_blue}Webserver Commands:${text_reset}"
+    echo -e "  homelab -webserver -s            # Display storage information"
+    echo -e "  homelab -webserver -t            # Display webserver status"
+    echo -e "  homelab -webserver -st           # Display both storage info and webserver status"
+    echo -e "  homelab -webserver -h            # Display help for the webserver module"
     echo
     exit 0
 }
