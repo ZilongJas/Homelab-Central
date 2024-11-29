@@ -14,36 +14,39 @@ API_KEY_FILE="$HOME/.weather_api_key"
 # Function to display usage
 usage() {
     echo -e "\nUsage:"
-    echo "  homelab -weather [location]"
-    echo "  homelab -weather --api YOUR_API_KEY  # Set or update your Weather API key"
-    echo "  homelab -weather --help              # Display this help message"
+    echo "  homelab -w [location]"
+    echo "  homelab -a YOUR_API_KEY  # Set or update your Weather API key"
+    echo "  homelab -h               # Display this help message"
     exit 1
 }
 
-# Handle command-line arguments using case
-case "$1" in
-    --api)
-        if [[ -z "$2" ]]; then
-            echo "Error: No API key provided."
-            usage
-        else
-            echo -n "$2" > "$API_KEY_FILE"
-            chmod 600 "$API_KEY_FILE"
-            echo "API key updated successfully."
-            exit 0
-        fi
-        ;;
-    --help)
-        usage
-        ;;
-    "")
-        echo "Error: No location provided."
-        usage
-        ;;
-    *)
-        LOCATION="$*"
-        ;;
-esac
+# Initialize variables
+API_KEY_UPDATE=""
+LOCATION=""
+
+# Use getopts to handle options
+while getopts "a:w:h" opt; do
+    case ${opt} in
+        a) API_KEY_UPDATE="${OPTARG}" ;;
+        w) LOCATION="${OPTARG}" ;;
+        h) usage ;;
+        *) usage ;;
+    esac
+done
+
+# Update API key if provided
+if [[ -n "$API_KEY_UPDATE" ]]; then
+    echo -n "$API_KEY_UPDATE" > "$API_KEY_FILE"
+    chmod 600 "$API_KEY_FILE"
+    echo "API key updated successfully."
+    exit 0
+fi
+
+# Validate location input
+if [[ -z "$LOCATION" ]]; then
+    echo "Error: No location provided."
+    usage
+fi
 
 # Check if API key exists; if not, prompt the user to set it
 if [[ ! -f "$API_KEY_FILE" ]]; then
