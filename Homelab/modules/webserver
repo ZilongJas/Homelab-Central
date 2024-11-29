@@ -8,9 +8,6 @@ text_bold="$(tput bold)"
 text_reset="$(tput sgr0)"
 line=$(printf '=%.0s' $(seq 1 "$(tput cols)"))
 
-# Function to display usage information
-usage() {
-    echo -e "
 # Corrected usage function for the webserver script
 usage() {
     echo -e "\nUsage:"
@@ -20,7 +17,6 @@ usage() {
     echo "  homelab -webserver -h             # Display this help message"
     exit 1
 }
-
 
 # Display storage information
 display_storage_info() {
