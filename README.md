@@ -4,8 +4,7 @@ A modular command-line tool for managing your home lab. Fetch weather data, moni
 
 *TODO: Make an install/uninstall script as another option*
 
-![image](https://github.com/user-attachments/assets/f5ae084a-b9b8-4d01-9c2a-1f7ff97991fb)
-
+[IMAGE PLACE HOLDER]
 ---
 
 ## Setup Instructions
