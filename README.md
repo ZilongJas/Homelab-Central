@@ -18,7 +18,7 @@ git clone https://github.com/ZilongJas/Homelab-Central.git
 ```
 ### 2. Make it executable
 ```bash
-sudo hmod +x ~/Homelab-Central/Homelab/homelab && sudo chmod +x ~/Homelab-Central/Homelab/modules/*
+sudo chmod +x ~/Homelab-Central/Homelab/homelab && sudo chmod +x ~/Homelab-Central/Homelab/modules/*
 ```
 ### 3. Add `Homelab` to Your PATH
 Update your `PATH` environment variable to include the `Homelab` directory by running:
