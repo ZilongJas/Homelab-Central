@@ -11,13 +11,16 @@ line=$(printf '=%.0s' $(seq 1 "$(tput cols)"))
 # Function to display usage information
 usage() {
     echo -e "
-Usage:
-  homelab -w -s       # Display storage information.
-  homelab -w -t       # Display the status of webserver services (apache2, httpd, nginx).
-  homelab -w -st      # Display both webserver status and storage information.
-  homelab -w -h       # Display this help message."
+# Corrected usage function for the webserver script
+usage() {
+    echo -e "\nUsage:"
+    echo "  homelab -webserver -s             # Display storage information"
+    echo "  homelab -webserver -t             # Display webserver status"
+    echo "  homelab -webserver -st            # Display both storage info and webserver status"
+    echo "  homelab -webserver -h             # Display this help message"
     exit 1
 }
+
 
 # Display storage information
 display_storage_info() {
