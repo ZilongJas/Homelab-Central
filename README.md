@@ -4,7 +4,7 @@ A modular command-line tool for managing your home lab. Fetch weather data, moni
 
 *TODO:* 
 1. Make an install/uninstall script as another option
-2. Make the webserver module have an option that shows live updates (?)
+2. Manage docker images
 
 ![image](https://github.com/user-attachments/assets/38722e89-23b0-4eb8-83bb-c83ab92c6ff5)
 
