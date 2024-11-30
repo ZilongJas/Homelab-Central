@@ -1,4 +1,4 @@
-# Homelab
+# Homelab Central
 
 A modular command-line tool for managing your home lab. Fetch weather data, monitor web server status, and more. (Coming soon)
 
