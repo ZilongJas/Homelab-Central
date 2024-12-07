@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Portions of this script were generated with the assistance of AI and manually verified/modified.
 # Colors for output
 text_blue="$(tput setaf 4)"
 text_red="$(tput setaf 1)"
