@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Portions of this script were generated with the assistance of AI and manually verified/modified.
 # Colors for formatting using tput
 GREEN=$(tput setaf 2)
 BLUE=$(tput setaf 4)
