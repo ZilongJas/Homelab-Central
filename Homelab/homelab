@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # homelab: A central command-line tool for home lab management
-# Portions of this script were generated with the assistance of AI and manually verified/modified. 
 # Define colors for output
 text_red="$(tput setaf 1)"
 text_green="$(tput setaf 2)"
