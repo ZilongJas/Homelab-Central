@@ -73,3 +73,5 @@ To remove `Homelab` from your system:
    ```bash
    source ~/.bashrc
    ```
+
+Disclaimer: *Portions of the scripts were developed with the assistance of Amazon Q and OpenAI's ChatGPT. All content has been manually reviewed and modified as necessary.*
